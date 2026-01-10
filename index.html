@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saveur Anjouannaise</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon-chef.svg">
+  <link rel="icon" href="favicon-chef.svg">
+  <!-- Inline SVG favicon as data URI (fallback for browsers that ignore external SVG) -->
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%230f3d2e'/><path d='M12 22c0-6 8-10 20-10s20 4 20 10c0 6-6 10-20 10S12 28 12 22z' fill='%23ffffff'/><circle cx='32' cy='34' r='9' fill='%23ffd8b0'/><circle cx='28' cy='33' r='1.6' fill='%230b0b0b'/><circle cx='36' cy='33' r='1.6' fill='%230b0b0b'/><path d='M26 38c2 2 10 2 12 0' stroke='%230b0b0b' stroke-width='1.2' stroke-linecap='round' fill='none'/></svg>">
+
 <style>
 :root{
   --or:#c9a24d;
@@ -112,7 +118,7 @@ nav a:hover::after{width:100%;}
   margin-bottom:35px;
 }
 
-.hero-text button{
+    .hero-btn{
   padding:12px 36px;
   background:var(--or);
   border:none;
@@ -132,7 +138,6 @@ nav a:hover::after{width:100%;}
   color:var(--vert);
   margin-bottom:20px;
 }
-
 .section p{
   max-width:680px;
   margin:auto;
@@ -199,10 +204,29 @@ nav a:hover::after{width:100%;}
 
 .plat:hover{transform:translateY(-10px);}
 
+.plat.selected{outline:3px solid var(--or);transform:translateY(-8px);}
+
 .plat img{
   width:100%;
   height:150px;
   object-fit:cover;
+}
+
+.client-qty{
+  width:60px;
+  margin:8px 8px 8px 0;
+  padding:6px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,.1);
+}
+
+.ajouter-client{
+  padding:8px 12px;
+  background:var(--vert);
+  color:white;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
 }
 
 .plat div{
@@ -358,7 +382,6 @@ footer{
     <ul>
       <li><a href="index.html">Accueil</a></li>
       <li><a href="menu.html">Menu</a></li>
-      <li><a href="Rafraîchissement.html">Rafraîchissements</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="https://www.google.com/maps/search/?api=1&query=-12.16725,44.39359" id="openMapBtn">Localisation</a></li>
       <li><a id="loginBtn">Connexion Pro</a></li>
@@ -372,8 +395,13 @@ footer{
   <div class="hero-text">
     <h2>L’Excellence Culinaire d’Anjouan</h2>
     <p>Une cuisine raffinée inspirée de l’océan Indien.</p>
-    <a href="contact.html"><button>Contactez-nous</button></a>
-    <a href="menu.html"><button>Voir le Menu Complet</button></a>
+    <a href="contact.html"><button class="hero-btn">Contactez-nous</button></a>
+    <br>
+    <br>
+    <a href="menu.html"><button class="hero-btn">Voir le Menu Complet</button></a>
+    <br>
+    <br>
+    <a href="https://www.google.com/maps/search/?api=1&query=-12.16725,44.39359"><button class="hero-btn">Localisation</button></a>
   </div>
 </section>
 
@@ -414,8 +442,14 @@ footer{
   <h2>🥘 Nos Plats du Jour</h2>
   <div class="liste-plats" id="listePlats"></div>
 
+  <div id="controlsPlatsDuJour" style="text-align:center; margin-top:18px;">
+    <div id="totalPlatsDuJour" style="font-weight:700; margin-bottom:10px;">Total : 0fr</div>
+    <button id="validerPlatsBtn" style="display:none; padding:12px 28px; border-radius:24px; background:var(--or); border:none; cursor:pointer; font-weight:700;">Valider la commande</button>
+  </div>
+
   <div class="admin-form" id="adminForm">
     <input type="text" id="nouveauPlat" placeholder="Nom du plat">
+    <input type="number" id="prixPlat" placeholder="Prix (fr)" min="0">
     <input type="file" id="imagePlat">
     <button id="ajouterPlat">Ajouter</button>
   </div>
@@ -443,6 +477,9 @@ const submitBtn=document.getElementById('loginSubmit');
 const msg=document.getElementById('loginMessage');
 const adminForm=document.getElementById('adminForm');
 const listePlats=document.getElementById('listePlats');
+const WHATSAPP_NUMBER = '255793977456';
+const totalPlatsEl = document.getElementById('totalPlatsDuJour');
+const validerPlatsBtn = document.getElementById('validerPlatsBtn');
 
 function chargerPlats(){
   listePlats.innerHTML="";
@@ -451,11 +488,21 @@ function chargerPlats(){
   plats.forEach((p,i)=>{
     const d=document.createElement('div');
     d.className="plat";
+    d.dataset.prix = (p.prix||p.prix===0) ? String(p.prix) : '0';
     const img=document.createElement('img');
     img.src=p.image;
+    const info=document.createElement('div');
+    info.style.padding='14px';
     const n=document.createElement('div');
     n.textContent=p.nom;
-    d.append(img,n);
+    n.style.fontWeight='700';
+    const priceEl=document.createElement('div');
+    priceEl.textContent = (p.prix || p.prix===0) ? (p.prix + ' fr') : '— fr';
+    priceEl.style.color='var(--vert)';
+    priceEl.style.marginTop='6px';
+    info.appendChild(n);
+    info.appendChild(priceEl);
+    d.append(img,info);
     if(admin){
       const b=document.createElement('button');
       b.textContent="✖";
@@ -464,9 +511,70 @@ function chargerPlats(){
       b.onclick=()=>{plats.splice(i,1);localStorage.setItem('platsDuJour',JSON.stringify(plats));chargerPlats();};
       d.appendChild(b);
     }
+    else{
+      // interface client: choisir quantité et ajouter au panier
+      const qty=document.createElement('input');
+      qty.type='number'; qty.min='1'; qty.value='1'; qty.className='client-qty';
+      qty.style.display='none';
+      const add=document.createElement('button');
+      add.textContent=''; add.className='ajouter-client';
+      add.onclick=()=>{
+        const panier=JSON.parse(localStorage.getItem('panier'))||[];
+        panier.push({nom:p.nom,image:p.image,quantite:parseInt(qty.value)||1,prix:(p.prix||0)});
+        localStorage.setItem('panier',JSON.stringify(panier));
+        alert(p.nom+" ajouté au panier (x"+(parseInt(qty.value)||1)+")");
+      };
+      // toggle selection when clicking the plat (but not when interacting with inputs/buttons)
+      d.addEventListener('click',(e)=>{
+        if(e.target===qty || e.target===add) return;
+        d.classList.toggle('selected');
+        qty.style.display = d.classList.contains('selected') ? 'inline-block' : 'none';
+        if(!d.classList.contains('selected')) qty.value='1';
+        updateTotalPlatsDuJour();
+      });
+
+      qty.addEventListener('input',()=>{ if(d.classList.contains('selected')) updateTotalPlatsDuJour(); });
+
+      d.appendChild(qty);
+      d.appendChild(add);
+    }
     listePlats.appendChild(d);
   });
 }
+
+function updateTotalPlatsDuJour(){
+  const platsSel = document.querySelectorAll('#listePlats .plat.selected');
+  let total=0;
+  platsSel.forEach(pl=>{
+    const q = pl.querySelector('.client-qty');
+    const qty = q ? (parseInt(q.value)||1) : 1;
+    const unit = parseFloat(pl.dataset.prix) || 0;
+    total += unit * qty;
+  });
+  totalPlatsEl.textContent = `Total : ${total}fr`;
+  validerPlatsBtn.style.display = (platsSel.length>0) ? 'inline-block' : 'none';
+}
+
+function validerPlatsDuJour(){
+  const platsSel = document.querySelectorAll('#listePlats .plat.selected');
+  if(platsSel.length===0){ alert("Vous n'avez sélectionné aucun plat !"); return; }
+  const commande=[];
+  platsSel.forEach(pl=>{
+    const name = pl.querySelector('div') ? pl.querySelector('div').firstChild.textContent : 'Plat';
+    const unit = parseFloat(pl.dataset.prix) || 0;
+    const qty = parseInt(pl.querySelector('.client-qty').value) || 1;
+    commande.push(`${name} x${qty} - ${unit*qty}fr`);
+  });
+  const messageLines = ['Commande Saveur Comorienne :','---------------------------',...commande,'---------------------------', document.getElementById('totalPlatsDuJour').textContent];
+  const message = messageLines.join('\n');
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(waUrl,'_blank');
+  // reset selections
+  platsSel.forEach(pl=>{ pl.classList.remove('selected'); const q=pl.querySelector('.client-qty'); if(q){ q.value='1'; q.style.display='none'; } });
+  updateTotalPlatsDuJour();
+}
+
+validerPlatsBtn.onclick = validerPlatsDuJour;
 
 loginBtn.onclick=e=>{e.preventDefault();modal.style.display="flex";};
 submitBtn.onclick=()=>{
@@ -494,9 +602,11 @@ ajouterPlat.onclick=()=>{
   const r=new FileReader();
   r.onload=e=>{
     const plats=JSON.parse(localStorage.getItem('platsDuJour'))||[];
-    plats.push({nom:nouveauPlat.value,image:e.target.result});
+    const prixVal = parseFloat(prixPlat.value);
+    plats.push({nom:nouveauPlat.value,image:e.target.result,prix: isNaN(prixVal)?0:prixVal});
     localStorage.setItem('platsDuJour',JSON.stringify(plats));
     nouveauPlat.value="";
+    prixPlat.value = '';
     imagePlat.value="";
     chargerPlats();
   };

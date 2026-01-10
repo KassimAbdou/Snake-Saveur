@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon-chef.svg">
     <link rel="icon" href="favicon-chef.svg">
     <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='darkgreen'/><g transform='translate(6,6) scale(0.875)'><path d='M24 2C18 2 14 6 12 10c-6 2-8 8-6 14 2 6 8 10 18 10s16-4 18-10c2-6 0-12-6-14-2-4-6-8-12-8z' fill='white'/><path d='M10 30c0 6 10 12 14 12s14-6 14-12v-2H10v2z' fill='gold'/></g></svg>">
-  <title>Boissons & Jus</title>
+  <title>Sélection de Plats</title>
 
   <style>
     :root{
@@ -21,13 +21,13 @@
       box-sizing:border-box;
     }
 
-    body {
-      font-family: 'Poppins', sans-serif;
+    body{
+      font-family:'Poppins',sans-serif;
       background:
         linear-gradient(180deg, rgba(14,165,164,.35), rgba(245,158,11,.15)),
         url('background-anjouan.jpg');
-      background-size: cover;
-      background-attachment: fixed;
+      background-size:cover;
+      background-attachment:fixed;
       margin:0;
       padding:30px 15px;
       color:#1f2933;
@@ -44,7 +44,7 @@
     h1{
       text-align:center;
       margin:20px 0 40px;
-      font-size:2.2em;
+      font-size:2.3em;
       color:#064e4a;
       text-shadow:0 2px 8px rgba(0,0,0,.15);
     }
@@ -52,9 +52,9 @@
     /* --- Menu --- */
     .menu{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
       gap:30px;
-      max-width:900px;
+      max-width:1100px;
       margin:0 auto;
     }
 
@@ -81,7 +81,7 @@
 
     .menu-item img{
       width:100%;
-      height:160px;
+      height:170px;
       object-fit:cover;
     }
 
@@ -123,7 +123,7 @@
       padding:14px 36px;
       border:none;
       border-radius:30px;
-      background:linear-gradient(135deg, var(--sun), #d97706);
+      background:linear-gradient(135deg,var(--sun),#d97706);
       color:white;
       font-size:1em;
       font-weight:600;
@@ -137,7 +137,7 @@
       box-shadow:0 15px 35px rgba(0,0,0,.35);
     }
 
-    /* --- Mobile amélioré --- */
+    /* --- Mobile --- */
     @media (max-width:600px){
       h1{ font-size:1.7em; }
       .menu-item img{ height:140px; }
@@ -151,26 +151,38 @@
     <strong><h3><a href="index.html" class="back">← Page d'accueil</a></h3></strong>
   </div>
 
-  <h1>Choisissez vos boissons</h1>
+  <h1>Choisissez vos plats</h1>
 
   <div class="menu">
-    <div class="menu-item" data-prix="500">
-      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.57_6b4b1eb7.jpg" alt="Boissons Fraîches">
-      <h3>Boissons Fraîches</h3>
-      <span>500fr</span>
+    <div class="menu-item" data-prix="3000">
+      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2003.26.42_220a171b.jpg" alt="Pilau avec Poulet">
+      <h3>Pilau avec Poulet</h3>
+      <span>3000fr</span>
     </div>
 
-    <div class="menu-item" data-prix="250">
-      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.01_58ed13a4.jpg" alt="Jus Naturel">
-      <h3>Jus Naturel</h3>
-      <span>250fr</span>
+    <div class="menu-item" data-prix="2500">
+      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2003.26.42_e9628a58.jpg" alt="Riz, Viande et Lait Caillé">
+      <h3>Riz, Viande et Lait Caillé</h3>
+      <span>2500fr</span>
+    </div>
+
+    <div class="menu-item" data-prix="3500">
+      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2003.26.41_a45eec5e.jpg" alt="Riz, Mataba, Poulet et Nshari">
+      <h3>Riz, Mataba, Poulet et Nshari</h3>
+      <span>3500fr</span>
+    </div>
+
+    <div class="menu-item" data-prix="3500">
+      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.33.52_33921e01.jpg" alt="Riz, Poisson, Mataba et Nshari">
+      <h3>Riz, Poisson, Mataba et Nshari</h3>
+      <span>3500fr</span>
     </div>
   </div>
 
   <div class="total">Total : 0fr</div>
   <button onclick="valider()">Valider la commande</button>
 
-  <!-- JS IDENTIQUE (NON MODIFIÉ) -->
+  <!-- JS STRICTEMENT IDENTIQUE -->
   <script>
     const WHATSAPP_NUMBER = '255793977456';
     const items = document.querySelectorAll('.menu-item');
@@ -198,7 +210,7 @@
         if (item.classList.contains('selected')){
           const unit=parseFloat(item.dataset.prix)||0;
           const q=parseInt(item.querySelector('.qty-input').value)||1;
-          total += unit * q;
+          total += unit*q;
         }
       });
       totalEl.textContent = `Total : ${total}fr`;

@@ -6,6 +6,7 @@
 
 <link rel="icon" href="favicon.ico">
 <link rel="icon" type="image/svg+xml" href="favicon-chef.svg">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%230f3d2e'/><path d='M12 22c0-6 8-10 20-10s20 4 20 10c0 6-6 10-20 10S12 28 12 22z' fill='%23ffffff'/><circle cx='32' cy='34' r='9' fill='%23ffd8b0'/><circle cx='28' cy='33' r='1.6' fill='%230b0b0b'/><circle cx='36' cy='33' r='1.6' fill='%230b0b0b'/><path d='M26 38c2 2 10 2 12 0' stroke='%230b0b0b' stroke-width='1.2' stroke-linecap='round' fill='none'/></svg>">
 
 <title>Menu du Restaurant</title>
 
@@ -402,6 +403,48 @@ footer:last-of-type{
   </script>
 
 <script>
+// Dynamically insert "Plats du Jour" from localStorage (if any)
+const platsDuJour = JSON.parse(localStorage.getItem('platsDuJour')) || [];
+if(platsDuJour.length){
+  const menuSection = document.querySelector('.menu-section');
+  const cat = document.createElement('div');
+  cat.className = 'menu-category';
+  const h2 = document.createElement('h2');
+  h2.textContent = 'Plats du Jour';
+  cat.appendChild(h2);
+  platsDuJour.forEach(p=>{
+    const item = document.createElement('div');
+    item.className = 'menu-item';
+    const label = document.createElement('label');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.value = (p.prix || p.prix===0) ? String(p.prix) : '0';
+    checkbox.className = 'menu-checkbox';
+    const img = document.createElement('img');
+    img.src = p.image;
+    const info = document.createElement('div');
+    info.className = 'menu-item-info';
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'menu-item-name';
+    nameSpan.textContent = p.nom;
+    const descSpan = document.createElement('span');
+    descSpan.className = 'menu-item-description';
+    descSpan.textContent = 'Plat du jour';
+    info.appendChild(nameSpan);
+    info.appendChild(descSpan);
+    label.appendChild(checkbox);
+    label.appendChild(img);
+    label.appendChild(info);
+    const priceDiv = document.createElement('div');
+    priceDiv.className = 'menu-item-price';
+    priceDiv.textContent = (p.prix || p.prix===0) ? (p.prix + ' fr') : '— fr';
+    item.appendChild(label);
+    item.appendChild(priceDiv);
+    cat.appendChild(item);
+  });
+  menuSection.insertBefore(cat, menuSection.firstChild);
+}
+
 const items = document.querySelectorAll('.menu-item');
 const totalEl = document.querySelector('.total');
 
