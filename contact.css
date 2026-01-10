@@ -1,0 +1,144 @@
+/* ================= FOND D'ÉCRAN ================= */
+body{
+  margin:0;
+  padding:0;
+  font-family:'Poppins',Arial,sans-serif;
+  min-height:100vh;
+
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.55),
+      rgba(0,0,0,0.55)
+    ),
+    url('WhatsApp Image 2025-10-15 à 15.29.11_7e6fa454.jpg') center/cover no-repeat;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* ================= HEADER ================= */
+header{
+  margin-top:30px;
+  text-align:center;
+  color:white;
+}
+
+header h1{
+  font-size:clamp(1.8em,5vw,2.6em);
+  letter-spacing:2px;
+}
+
+.back{
+  display:inline-block;
+  margin-top:12px;
+  text-decoration:none;
+  color:#eaeaea;
+  font-size:.95em;
+  opacity:.85;
+  transition:.3s;
+}
+
+.back:hover{
+  opacity:1;
+  text-decoration:underline;
+}
+
+/* ================= CONTAINER ================= */
+.container{
+  margin-top:70px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:40px;
+  width:100%;
+  max-width:700px;
+  padding:0 20px;
+  justify-items:center;
+}
+
+/* ================= ICONES ================= */
+.icon{
+  position:relative;
+  width:90px;
+  height:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  border-radius:50%;
+
+  cursor:pointer;
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease,
+    background .35s ease;
+}
+
+.icon:hover{
+  transform:translateY(-8px) scale(1.08);
+  background:rgba(255,255,255,0.25);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.35),
+    0 0 20px rgba(255,255,255,.25);
+}
+
+/* ================= ICON FONT ================= */
+.icon i{
+  font-size:38px;
+  color:white;
+  transition:transform .3s;
+}
+
+.icon:hover i{
+  transform:scale(1.1);
+}
+
+/* ================= TOOLTIP ================= */
+.tooltip{
+  position:absolute;
+  bottom:-38px;
+  left:50%;
+  transform:translateX(-50%) translateY(5px);
+
+  background:rgba(0,0,0,.75);
+  color:white;
+  padding:6px 14px;
+  border-radius:20px;
+
+  font-size:.8em;
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+
+  transition:
+    opacity .3s ease,
+    transform .3s ease;
+}
+
+.icon:hover .tooltip{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:600px){
+  .container{
+    gap:28px;
+    margin-top:50px;
+  }
+
+  .icon{
+    width:75px;
+    height:75px;
+  }
+
+  .icon i{
+    font-size:32px;
+  }
+
+  .tooltip{
+    font-size:.75em;
+  }
+}

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon-chef.svg">
+  <title>Boissons & Jus</title>
+
+  <style>
+    :root{
+      --ocean:#0ea5a4;
+      --sun:#f59e0b;
+      --sand:#fff7e0;
+      --dark:#1f2933;
+      --glass:rgba(255,255,255,.18);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background:
+        linear-gradient(180deg, rgba(14,165,164,.35), rgba(245,158,11,.15)),
+        url('background-anjouan.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      margin:0;
+      padding:30px 15px;
+      color:#1f2933;
+    }
+
+    /* --- Retour --- */
+    .back{
+      text-decoration:none;
+      color:var(--ocean);
+      font-weight:600;
+      font-size:.95em;
+    }
+
+    h1{
+      text-align:center;
+      margin:20px 0 40px;
+      font-size:2.2em;
+      color:#064e4a;
+      text-shadow:0 2px 8px rgba(0,0,0,.15);
+    }
+
+    /* --- Menu --- */
+    .menu{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+      gap:30px;
+      max-width:900px;
+      margin:0 auto;
+    }
+
+    .menu-item{
+      background:var(--glass);
+      backdrop-filter:blur(12px);
+      border-radius:20px;
+      overflow:hidden;
+      cursor:pointer;
+      padding-bottom:15px;
+      box-shadow:0 15px 35px rgba(0,0,0,.15);
+      transition:.35s ease;
+      text-align:center;
+    }
+
+    .menu-item:hover{
+      transform:translateY(-6px) scale(1.02);
+    }
+
+    .menu-item.selected{
+      outline:3px solid var(--sun);
+      transform:scale(1.05);
+    }
+
+    .menu-item img{
+      width:100%;
+      height:160px;
+      object-fit:cover;
+    }
+
+    .menu-item h3{
+      margin:12px 0 4px;
+      color:#083344;
+    }
+
+    .menu-item span{
+      display:block;
+      font-weight:700;
+      color:var(--sun);
+      margin-bottom:8px;
+    }
+
+    .qty-input{
+      width:70px;
+      padding:6px;
+      border-radius:12px;
+      border:1px solid #ddd;
+      display:none;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    /* --- Total --- */
+    .total{
+      text-align:center;
+      font-size:1.4em;
+      font-weight:700;
+      margin:35px 0 20px;
+      color:#064e4a;
+    }
+
+    /* --- Bouton --- */
+    button{
+      display:block;
+      margin:0 auto;
+      padding:14px 36px;
+      border:none;
+      border-radius:30px;
+      background:linear-gradient(135deg, var(--sun), #d97706);
+      color:white;
+      font-size:1em;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      transition:.3s;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+      box-shadow:0 15px 35px rgba(0,0,0,.35);
+    }
+
+    /* --- Mobile amélioré --- */
+    @media (max-width:600px){
+      h1{ font-size:1.7em; }
+      .menu-item img{ height:140px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    <strong><h3><a href="index.html" class="back">← Page d'accueil</a></h3></strong>
+  </div>
+
+  <h1>Choisissez vos boissons</h1>
+
+  <div class="menu">
+    <div class="menu-item" data-prix="500">
+      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.57_6b4b1eb7.jpg" alt="Boissons Fraîches">
+      <h3>Boissons Fraîches</h3>
+      <span>500fr</span>
+    </div>
+
+    <div class="menu-item" data-prix="250">
+      <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.01_58ed13a4.jpg" alt="Jus Naturel">
+      <h3>Jus Naturel</h3>
+      <span>250fr</span>
+    </div>
+  </div>
+
+  <div class="total">Total : 0fr</div>
+  <button onclick="valider()">Valider la commande</button>
+
+  <!-- JS IDENTIQUE (NON MODIFIÉ) -->
+  <script>
+    const WHATSAPP_NUMBER = '255793977456';
+    const items = document.querySelectorAll('.menu-item');
+    const totalEl = document.querySelector('.total');
+
+    items.forEach(item => {
+      const qty = document.createElement('input');
+      qty.type='number'; qty.min='1'; qty.value='1'; qty.className='qty-input';
+      item.appendChild(qty);
+
+      item.addEventListener('click', (e)=>{
+        if (e.target === qty) return;
+        item.classList.toggle('selected');
+        qty.style.display = item.classList.contains('selected') ? 'block' : 'none';
+        if (!item.classList.contains('selected')) qty.value='1';
+        updateTotal();
+      });
+
+      qty.addEventListener('input', ()=>{ if (item.classList.contains('selected')) updateTotal(); });
+    });
+
+    function updateTotal(){
+      let total=0;
+      items.forEach(item=>{
+        if (item.classList.contains('selected')){
+          const unit=parseFloat(item.dataset.prix)||0;
+          const q=parseInt(item.querySelector('.qty-input').value)||1;
+          total += unit * q;
+        }
+      });
+      totalEl.textContent = `Total : ${total}fr`;
+    }
+
+    function valider(){
+      const commande=[];
+      items.forEach(item=>{
+        if (item.classList.contains('selected')){
+          const name=item.querySelector('h3').textContent.trim();
+          const unit=parseFloat(item.dataset.prix)||0;
+          const q=parseInt(item.querySelector('.qty-input').value)||1;
+          commande.push(`${name} x${q} - ${unit*q}fr`);
+        }
+      });
+
+      if (commande.length===0){
+        alert("Vous n'avez sélectionné aucun plat !");
+        return;
+      }
+
+      const messageLines=[
+        'Commande Saveur Comorienne :',
+        '---------------------------',
+        ...commande,
+        '---------------------------',
+        totalEl.textContent
+      ];
+
+      const message = messageLines.join('\n');
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(waUrl,'_blank');
+
+      items.forEach(item=>{
+        item.classList.remove('selected');
+        const q=item.querySelector('.qty-input');
+        if (q){ q.value='1'; q.style.display='none'; }
+      });
+      updateTotal();
+    }
+  </script>
+
+</body>
+</html>

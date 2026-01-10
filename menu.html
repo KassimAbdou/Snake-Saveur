@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/svg+xml" href="favicon-chef.svg">
+
+<title>Menu du Restaurant</title>
+
+<style>
+:root{
+  --ocean:#0f3d2e;
+  --ocean-light:#1f6f54;
+  --sable:#f4efe9;
+  --vanille:#ffcc80;
+  --terre:#4c3833;
+  --glass:rgba(255,255,255,.14);
+}
+
+/* ===== BASE ===== */
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  color:#fff;
+  background:
+    linear-gradient(rgba(15,61,46,.85),rgba(15,61,46,.85)),
+    linear-gradient(135deg,#0f3d2e,#1f6f54);
+}
+
+/* ===== FOOTER ACCUEIL ===== */
+footer:first-of-type{
+  text-align:center;
+  padding:18px;
+  background:rgba(0,0,0,.25);
+}
+
+footer a{
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
+
+footer a:hover{
+  text-decoration:underline;
+}
+
+/* ===== HEADER ===== */
+header{
+  text-align:center;
+  padding:60px 20px 30px;
+}
+
+header h1{
+  font-size:clamp(2.2em,6vw,2.8em);
+  letter-spacing:2px;
+}
+
+header p{
+  font-size:1.1em;
+  color:#e8f5f1;
+  max-width:620px;
+  margin:auto;
+}
+
+/* ===== MENU SECTION ===== */
+.menu-section{
+  max-width:1000px;
+  margin:0 auto;
+  padding:45px 22px;
+  background:var(--glass);
+  backdrop-filter:blur(16px);
+  border-radius:20px;
+  box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+/* ===== CATEGORY ===== */
+.menu-category{
+  margin-bottom:50px;
+}
+
+.menu-category h2{
+  border-bottom:2px solid rgba(255,255,255,.25);
+  padding-bottom:10px;
+  margin-bottom:25px;
+  color:var(--vanille);
+  font-size:1.6em;
+}
+
+/* ===== ITEM ===== */
+.menu-item{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+  padding:15px;
+  background:rgba(255,255,255,.10);
+  border-radius:16px;
+  transition:.35s ease;
+}
+
+.menu-item:hover{
+  transform:translateY(-5px);
+  background:rgba(255,255,255,.18);
+}
+
+.menu-item.selected{
+  outline:2px solid var(--vanille);
+}
+
+/* ===== LABEL ===== */
+.menu-item label{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  flex:1;
+  cursor:pointer;
+}
+
+/* ===== IMAGE ===== */
+.menu-item img{
+  width:82px;
+  height:82px;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 6px 16px rgba(0,0,0,.3);
+}
+
+/* ===== INFO ===== */
+.menu-item-info{
+  display:flex;
+  flex-direction:column;
+}
+
+.menu-item-name{
+  font-weight:600;
+}
+
+.menu-item-description{
+  font-size:.85em;
+  color:#e0f2ee;
+}
+
+/* ===== PRICE ===== */
+.menu-item-price{
+  font-weight:600;
+  color:var(--vanille);
+  white-space:nowrap;
+}
+
+/* ===== CHECKBOX ===== */
+input[type="checkbox"]{
+  transform:scale(1.3);
+  cursor:pointer;
+}
+
+/* ===== TOTAL ===== */
+.total{
+  text-align:center;
+  font-size:1.7em;
+  font-weight:700;
+  color:var(--vanille);
+  margin-top:45px;
+  padding-top:25px;
+  border-top:2px solid rgba(255,255,255,.25);
+}
+
+/* ===== BUTTON ===== */
+button{
+  display:block;
+  margin:35px auto 0;
+  padding:14px 44px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#ffcc80,#e6a84f);
+  color:#2f2f2f;
+  font-size:1em;
+  font-weight:700;
+  cursor:pointer;
+  transition:.35s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(0,0,0,.45);
+}
+
+/* ===== FOOTER FINAL ===== */
+footer:last-of-type{
+  margin-top:70px;
+  text-align:center;
+  padding:25px;
+  font-size:.9em;
+  color:#e0f2ee;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .menu-item{
+    grid-template-columns:1fr;
+  }
+
+  .menu-item label{
+    align-items:flex-start;
+  }
+
+  .menu-item-price{
+    margin-top:10px;
+    text-align:right;
+  }
+
+  .menu-item img{
+    width:70px;
+    height:70px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<footer>
+  <a href="index.html"><strong>🏠 Accueil Principal</strong></a>
+</footer>
+
+<header>
+  <h1>Karibu</h1>
+  <p>Découvrez nos plats faits maison avec des ingrédients frais et locaux</p>
+</header>
+
+<section class="menu-section">
+
+    <!-- Plats de Riz -->
+    <div class="menu-category">
+      <h2>Plats de Riz</h2>
+
+      <div class="menu-item">
+        <label>
+          <input type="checkbox" value="2500" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2003.26.42_220a171b.jpg" alt="Pilau avec Poulet">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Pilau avec Poulet</span>
+            <span class="menu-item-description">Servi avec les épices de la maison</span>
+          </div>
+        </label>
+        <div class="menu-item-price">2500 fr</div>
+      </div>
+
+      <div class="menu-item">
+        <label>
+          <input type="checkbox" value="2500" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2003.26.42_e9628a58.jpg" alt="Riz, Viande et Lait Caillé">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Riz, Viande et Lait Caillé</span>
+            <span class="menu-item-description">Un plat de melange savoureux</span>
+          </div>
+        </label>
+        <div class="menu-item-price">2500 fr</div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+          <input type="checkbox" value="3500" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2003.26.41_a45eec5e.jpg" alt="Riz, Mataba, Poulet et Nshari">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Riz, Mataba, Poulet et Nshari</span>
+            <span class="menu-item-description">Un plat avec des saveurs authentiques</span>
+          </div>
+        </label>
+        <div class="menu-item-price">3500 fr</div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+          <input type="checkbox" value="3500" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.33.52_33921e01.jpg" alt="Riz, Poisson, Mataba et Nshari">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Riz, Poisson, Mataba et Nshari</span>
+            <span class="menu-item-description">Un plat avec des saveurs marines</span>
+          </div>
+        </label>
+        <div class="menu-item-price">3500 fr</div>
+      </div>
+    </div>
+
+    <!-- Plats principaux -->
+    <div class="menu-category">
+      <h2>Delice Boulangere</h2>
+
+      <div class="menu-item">
+        <label>
+          <input type="checkbox" value="500" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.59_90dd735a.jpg" alt="Pain Chocolat">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Pain Chocolat</span>
+            <span class="menu-item-description">Plat sucré</span>
+          </div>
+        </label>
+        <div class="menu-item-price">500 fr</div>
+      </div>
+
+      <div class="menu-item">
+        <label>
+          <input type="checkbox" value="250" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.59_b3547bae.jpg" alt="Mkatra Foutra">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Mkatra Foutra</span>
+            <span class="menu-item-description">Pâte feuilletée</span>
+          </div>
+        </label>
+        <div class="menu-item-price">250 fr</div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+          <input type="checkbox" value="100" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.59_82c76705.jpg" alt="Boitriye">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Boitriye</span>
+            <span class="menu-item-description">Saveur de l'île</span>
+          </div>
+        </label>
+        <div class="menu-item-price">100 fr</div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+          <input type="checkbox" value="50" class="menu-checkbox">
+         <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.57_ac9e8c89.jpg" alt="Sambousa">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Sambousa</span>
+            <span class="menu-item-description">Pâte croustillante et garniture épicée</span>
+          </div>
+        </label>
+        <div class="menu-item-price">50 fr</div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+        <label>
+          <input type="checkbox" value="50" class="menu-checkbox">
+         <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.57_78a3d58f.jpg" alt="Kouskouma">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Kouskouma</span>
+            <span class="menu-item-description">Saveur de l'île</span>
+          </div>
+        </label>
+        <div class="menu-item-price">50 fr</div>
+      </div>
+    </div>
+
+
+    <!-- Desserts -->
+    <div class="menu-category">
+      <h2>Les boissons et Jus</h2>
+
+      <div class="menu-item">
+        <label>
+          <input type="checkbox" value="500" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2005.01.57_6b4b1eb7.jpg" alt="Boissons Fraîches">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Boissons Fraîches</span>
+            <span class="menu-item-description">Accompagner vos plats</span>
+          </div>
+        </label>
+        <div class="menu-item-price">500 fr</div>
+      </div>
+
+      <div class="menu-item">
+        <label>
+          <input type="checkbox" value="250" class="menu-checkbox">
+          <img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.01_58ed13a4.jpg" alt="Jus Naturel">
+          <div class="menu-item-info">
+            <span class="menu-item-name">Jus Naturel</span>
+            <span class="menu-item-description">Frais et vitaminé</span>
+          </div>
+        </label>
+        <div class="menu-item-price">250 fr</div>
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="total">Total : 0fr</div>
+<button onclick="valider()">Valider la commande</button>
+  </section>
+
+  <footer>
+    © 2025 Votre Restaurant – Tous droits réservés et livraison disponible.
+  </footer>
+
+  <!-- Inclure EmailJS SDK -->
+  <!-- Optional: WhatsApp order sending - configure the number below -->
+  <script>
+    // Put your phone number with country code, no +, no spaces. Example for Comoros: 262123456789
+    const WHATSAPP_NUMBER = '255793977456'; // <-- WhatsApp number provided by user
+  </script>
+
+<script>
+const items = document.querySelectorAll('.menu-item');
+const totalEl = document.querySelector('.total');
+
+// Create quantity inputs for checkbox-based menu items and wire events
+items.forEach(item => {
+  const checkbox = item.querySelector('input[type="checkbox"]');
+  // create a qty input and place it next to the checkbox (hidden by default)
+  const qty = document.createElement('input');
+  qty.type = 'number';
+  qty.min = '1';
+  qty.value = '1';
+  qty.className = 'qty-input';
+  qty.style.width = '60px';
+  qty.style.marginLeft = '8px';
+  qty.style.display = 'none';
+
+  if (checkbox) {
+    checkbox.insertAdjacentElement('afterend', qty);
+    // show qty when checked
+    checkbox.addEventListener('change', () => {
+      item.classList.toggle('selected', checkbox.checked);
+      qty.style.display = checkbox.checked ? 'inline-block' : 'none';
+      if (!checkbox.checked) qty.value = '1';
+      updateTotal();
+    });
+    // update total if quantity changes while checked
+    qty.addEventListener('input', () => { if (checkbox.checked) updateTotal(); });
+  } else {
+    // fallback: append qty to item info if no checkbox present
+    const info = item.querySelector('.menu-item-info') || item;
+    info.appendChild(qty);
+    qty.style.display = 'none';
+  }
+});
+
+function updateTotal() {
+  let total = 0;
+  items.forEach(item => {
+    const checkbox = item.querySelector('input[type="checkbox"]');
+    const qtyEl = item.querySelector('.qty-input');
+    if (checkbox && checkbox.checked) {
+      const unit = parseFloat(checkbox.value) || 0;
+      const q = qtyEl ? (parseInt(qtyEl.value) || 1) : 1;
+      total += unit * q;
+    }
+  });
+  totalEl.textContent = `Total : ${total}fr`;
+}
+
+function valider() {
+  let commande = [];
+  items.forEach(item => {
+    const checkbox = item.querySelector('input[type="checkbox"]');
+    const qtyEl = item.querySelector('.qty-input');
+    if (checkbox && checkbox.checked) {
+      const nameEl = item.querySelector('.menu-item-name');
+      const name = nameEl ? nameEl.textContent.trim() : 'Plat';
+      const unit = parseFloat(checkbox.value) || 0;
+      const qty = qtyEl ? (parseInt(qtyEl.value) || 1) : 1;
+      const subtotal = unit * qty;
+      commande.push(`${name} x${qty} - ${subtotal}fr`);
+    }
+  });
+
+  if (commande.length === 0) {
+    alert("Vous n'avez sélectionné aucun plat !");
+    return;
+  }
+
+  // Construire le message WhatsApp
+  const messageLines = [
+    'Commande Saveur Comorienne :',
+    '---------------------------',
+    ...commande,
+    '---------------------------',
+    totalEl.textContent
+  ];
+  const message = messageLines.join('\n');
+
+  if (!WHATSAPP_NUMBER || WHATSAPP_NUMBER.indexOf('X') !== -1) {
+    if (navigator.clipboard) navigator.clipboard.writeText(message).catch(()=>{});
+    alert('Numéro WhatsApp non configuré. Le message de la commande a été copié dans le presse-papiers :\n\n' + message);
+    return;
+  }
+
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, '_blank');
+
+  // Réinitialiser la sélection et quantités
+  items.forEach(item => {
+    const checkbox = item.querySelector('input[type="checkbox"]');
+    const qtyEl = item.querySelector('.qty-input');
+    if (checkbox) checkbox.checked = false;
+    if (qtyEl) { qtyEl.value = '1'; qtyEl.style.display = 'none'; }
+    item.classList.remove('selected');
+  });
+  updateTotal();
+}
+</script>
+
+</body>
+</html>
