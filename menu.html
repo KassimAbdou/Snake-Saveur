@@ -395,6 +395,11 @@ footer:last-of-type{
     © 2025 Votre Restaurant – Tous droits réservés et livraison disponible.
   </footer>
 
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+  <script src="firebase-config.js"></script>
+
   <!-- Inclure EmailJS SDK -->
   <!-- Optional: WhatsApp order sending - configure the number below -->
   <script>
@@ -403,46 +408,96 @@ footer:last-of-type{
   </script>
 
 <script>
-// Dynamically insert "Plats du Jour" from localStorage (if any)
-const platsDuJour = JSON.parse(localStorage.getItem('platsDuJour')) || [];
-if(platsDuJour.length){
-  const menuSection = document.querySelector('.menu-section');
-  const cat = document.createElement('div');
-  cat.className = 'menu-category';
-  const h2 = document.createElement('h2');
-  h2.textContent = 'Plats du Jour';
-  cat.appendChild(h2);
-  platsDuJour.forEach(p=>{
-    const item = document.createElement('div');
-    item.className = 'menu-item';
-    const label = document.createElement('label');
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.value = (p.prix || p.prix===0) ? String(p.prix) : '0';
-    checkbox.className = 'menu-checkbox';
-    const img = document.createElement('img');
-    img.src = p.image;
-    const info = document.createElement('div');
-    info.className = 'menu-item-info';
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'menu-item-name';
-    nameSpan.textContent = p.nom;
-    const descSpan = document.createElement('span');
-    descSpan.className = 'menu-item-description';
-    descSpan.textContent = 'Plat du jour';
-    info.appendChild(nameSpan);
-    info.appendChild(descSpan);
-    label.appendChild(checkbox);
-    label.appendChild(img);
-    label.appendChild(info);
-    const priceDiv = document.createElement('div');
-    priceDiv.className = 'menu-item-price';
-    priceDiv.textContent = (p.prix || p.prix===0) ? (p.prix + ' fr') : '— fr';
-    item.appendChild(label);
-    item.appendChild(priceDiv);
-    cat.appendChild(item);
+// Dynamically insert "Plats du Jour" from Firebase (if any)
+chargerPlatsFromFirebase((platsDuJour) => {
+  if(platsDuJour.length){
+    const menuSection = document.querySelector('.menu-section');
+    // Supprimer la catégorie existante si elle y est (pour les rafraîchissements)
+    const existingPDJ = document.querySelector('.menu-category:has(h2:contains("Plats du Jour"))');
+    if(existingPDJ) existingPDJ.remove();
+    
+    const cat = document.createElement('div');
+    cat.className = 'menu-category';
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Plats du Jour';
+    cat.appendChild(h2);
+    platsDuJour.forEach(p=>{
+      const item = document.createElement('div');
+      item.className = 'menu-item';
+      const label = document.createElement('label');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = (p.prix || p.prix===0) ? String(p.prix) : '0';
+      checkbox.className = 'menu-checkbox';
+      const img = document.createElement('img');
+      img.src = p.image;
+      const info = document.createElement('div');
+      info.className = 'menu-item-info';
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'menu-item-name';
+      nameSpan.textContent = p.nom;
+      const descSpan = document.createElement('span');
+      descSpan.className = 'menu-item-description';
+      descSpan.textContent = 'Plat du jour';
+      info.appendChild(nameSpan);
+      info.appendChild(descSpan);
+      label.appendChild(checkbox);
+      label.appendChild(img);
+      label.appendChild(info);
+      const priceDiv = document.createElement('div');
+      priceDiv.className = 'menu-item-price';
+      priceDiv.textContent = (p.prix || p.prix===0) ? (p.prix + ' fr') : '— fr';
+      item.appendChild(label);
+      item.appendChild(priceDiv);
+      cat.appendChild(item);
+    });
+    menuSection.insertBefore(cat, menuSection.firstChild);
+    
+    // Redéclencher la logique de mise à jour des items
+    updateItemsQuantity();
+  }
+});
+
+function updateItemsQuantity() {
+  const items = document.querySelectorAll('.menu-item');
+  const totalEl = document.querySelector('.total');
+
+  // Create quantity inputs for checkbox-based menu items and wire events
+  items.forEach(item => {
+    const checkbox = item.querySelector('input[type="checkbox"]');
+    let qty = item.querySelector('.qty-input');
+    
+    // Si l'input existe déjà, ne pas la recréer
+    if (qty) return;
+    
+    // create a qty input and place it next to the checkbox (hidden by default)
+    qty = document.createElement('input');
+    qty.type = 'number';
+    qty.min = '1';
+    qty.value = '1';
+    qty.className = 'qty-input';
+    qty.style.width = '60px';
+    qty.style.marginLeft = '8px';
+    qty.style.display = 'none';
+
+    if (checkbox) {
+      checkbox.insertAdjacentElement('afterend', qty);
+      // show qty when checked
+      checkbox.addEventListener('change', () => {
+        item.classList.toggle('selected', checkbox.checked);
+        qty.style.display = checkbox.checked ? 'inline-block' : 'none';
+        if (!checkbox.checked) qty.value = '1';
+        updateTotal();
+      });
+      // update total if quantity changes while checked
+      qty.addEventListener('input', () => { if (checkbox.checked) updateTotal(); });
+    } else {
+      // fallback: append qty to item info if no checkbox present
+      const info = item.querySelector('.menu-item-info') || item;
+      info.appendChild(qty);
+      qty.style.display = 'none';
+    }
   });
-  menuSection.insertBefore(cat, menuSection.firstChild);
 }
 
 const items = document.querySelectorAll('.menu-item');
