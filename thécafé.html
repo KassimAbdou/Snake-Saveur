@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon-chef.svg">
+    <link rel="icon" href="favicon-chef.svg">
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='darkgreen'/><g transform='translate(6,6) scale(0.875)'><path d='M24 2C18 2 14 6 12 10c-6 2-8 8-6 14 2 6 8 10 18 10s16-4 18-10c2-6 0-12-6-14-2-4-6-8-12-8z' fill='white'/><path d='M10 30c0 6 10 12 14 12s14-6 14-12v-2H10v2z' fill='gold'/></g></svg>">
+  <title>Thé & Café</title>
+
+  <style>
+    :root{
+      --ocean:#0ea5a4;
+      --sun:#f59e0b;
+      --sand:#fff7e0;
+      --dark:#1f2933;
+      --glass:rgba(255,255,255,.18);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background:
+        linear-gradient(180deg, rgba(14,165,164,.35), rgba(245,158,11,.15)),
+        url('background-anjouan.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      margin:0;
+      padding:30px 15px;
+      color:#7a7a7a;
+    }
+    
+    /* ================= HEADER ================= */
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      padding:14px clamp(16px,4vw,80px);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(0, 0, 0, 0.8);
+      backdrop-filter:blur(12px);
+      z-index:100;
+    }
+
+    header h1{
+      color:var(--or);
+      font-size:clamp(1.2em,4vw,1.6em);
+      letter-spacing:2px;
+    }
+
+    nav{
+      transition:max-height .35s ease;
+    }
+
+    nav ul{
+      list-style:none;
+      display:flex;
+      gap:clamp(14px,3vw,35px);
+    }
+
+    nav a{
+      text-decoration:none;
+      color:white;
+      font-weight:500;
+      position:relative;
+    }
+
+    nav a::after{
+      content:"";
+      position:absolute;
+      bottom:-5px;
+      left:0;
+      width:0;
+      height:2px;
+      background:var(--or);
+      transition:.3s;
+    }
+
+    nav a:hover::after{width:100%;}
+
+    /* ================= HAMBURGER ================= */
+    .hamburger{
+        display:none;
+        font-size:2em;
+        color:white;
+        cursor:pointer;
+    }
+
+    /* --- Menu --- */
+    .menu{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+      gap:30px;
+      max-width:900px;
+      margin:0 auto;
+    }
+
+    .menu-item{
+      background:var(--glass);
+      backdrop-filter:blur(12px);
+      border-radius:20px;
+      overflow:hidden;
+      cursor:pointer;
+      padding-bottom:15px;
+      box-shadow:0 15px 35px rgba(0,0,0,.15);
+      transition:.35s ease;
+      text-align:center;
+    }
+
+    .menu-item:hover{
+      transform:translateY(-6px) scale(1.02);
+    }
+
+    .menu-item.selected{
+      outline:3px solid var(--sun);
+      transform:scale(1.05);
+    }
+
+    .menu-item img{
+  width: 50%;
+  aspect-ratio: 2 / 3;   /* vertical */
+  object-fit: cover;
+  object-position: center;
+}
+
+    .menu-item h3{
+      margin:12px 0 4px;
+      color:#083344;
+    }
+
+    .menu-item span{
+      display:block;
+      font-weight:700;
+      color:var(--sun);
+      margin-bottom:8px;
+    }
+
+    .qty-input{
+      width:70px;
+      padding:6px;
+      border-radius:12px;
+      border:1px solid #ddd;
+      display:none;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    /* --- Total --- */
+    .total{
+      text-align:center;
+      font-size:1.4em;
+      font-weight:700;
+      margin:35px 0 20px;
+      color:#064e4a;
+    }
+
+    /* --- Bouton --- */
+    button{
+      display:block;
+      margin:0 auto;
+      padding:14px 36px;
+      border:none;
+      border-radius:30px;
+      background:linear-gradient(135deg, var(--sun), #d97706);
+      color:white;
+      font-size:1em;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      transition:.3s;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+      box-shadow:0 15px 35px rgba(0,0,0,.35);
+    }
+
+    /* --- Mobile amélioré --- */
+    @media (max-width:600px){
+  h1{ font-size:1.7em; }
+
+  .menu-item img{
+    aspect-ratio: 3 / 4; /* reste vertical sur téléphone */
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+  <h1>Snake Saveur</h1>
+  <div class="hamburger" id="hamburger">☰</div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://www.google.com/maps/search/?api=1&query=-12.16725,44.39359" id="openMapBtn">Localisation</a></li>
+    </ul>
+  </nav>
+</header>
+
+  <br>
+  <br>
+  <br>
+
+  <h1>Choisissez votre preference</h1>
+
+  <div class="menu">
+    <div class="menu-item" data-prix="500">
+      <img src="types-of-coffee-for-weight-loss_1024x1024.jpg" alt="café">
+      <h3>café avec ou sans sucre ou lait</h3>
+      <span>500fr</span>
+      <p>Décrivez nous comment vous le voulez une fois sur whatsapp</p>
+    </div>
+
+    <div class="menu-item" data-prix="500">
+      <img src="hd-digital-art-wallpaper-background_783884-142661.avif" alt="thé">
+      <h3>Thé avec ou sans sucre ou lait</h3>
+      <span>500fr</span>
+      <p>Décrivez nous comment vous le voulez une fois sur whatsapp</p>
+    </div>
+  </div>
+
+  <div class="total">Total : 0fr</div>
+  <button onclick="valider()">Valider la commande</button>
+
+  <!-- JS IDENTIQUE (NON MODIFIÉ) -->
+  <script>
+    const WHATSAPP_NUMBER = '255793977456';
+    const items = document.querySelectorAll('.menu-item');
+    const totalEl = document.querySelector('.total');
+
+    items.forEach(item => {
+      const qty = document.createElement('input');
+      qty.type='number'; qty.min='1'; qty.value='1'; qty.className='qty-input';
+      item.appendChild(qty);
+
+      item.addEventListener('click', (e)=>{
+        if (e.target === qty) return;
+        item.classList.toggle('selected');
+        qty.style.display = item.classList.contains('selected') ? 'block' : 'none';
+        if (!item.classList.contains('selected')) qty.value='1';
+        updateTotal();
+      });
+
+      qty.addEventListener('input', ()=>{ if (item.classList.contains('selected')) updateTotal(); });
+    });
+
+    function updateTotal(){
+      let total=0;
+      items.forEach(item=>{
+        if (item.classList.contains('selected')){
+          const unit=parseFloat(item.dataset.prix)||0;
+          const q=parseInt(item.querySelector('.qty-input').value)||1;
+          total += unit * q;
+        }
+      });
+      totalEl.textContent = `Total : ${total}fr`;
+    }
+
+    function valider(){
+      const commande=[];
+      items.forEach(item=>{
+        if (item.classList.contains('selected')){
+          const name=item.querySelector('h3').textContent.trim();
+          const unit=parseFloat(item.dataset.prix)||0;
+          const q=parseInt(item.querySelector('.qty-input').value)||1;
+          commande.push(`${name} x${q} - ${unit*q}fr`);
+        }
+      });
+
+      if (commande.length===0){
+        alert("Vous n'avez sélectionné aucun plat !");
+        return;
+      }
+
+      const messageLines=[
+        'Commande Saveur Comorienne :',
+        '---------------------------',
+        ...commande,
+        '---------------------------',
+        totalEl.textContent
+      ];
+
+      const message = messageLines.join('\n');
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(waUrl,'_blank');
+
+      items.forEach(item=>{
+        item.classList.remove('selected');
+        const q=item.querySelector('.qty-input');
+        if (q){ q.value='1'; q.style.display='none'; }
+      });
+      updateTotal();
+    }
+  </script>
+
+</body>
+</html>
