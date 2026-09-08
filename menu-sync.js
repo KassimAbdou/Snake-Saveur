@@ -76,10 +76,32 @@
 
   function normalizePageName(value) {
     try {
-      return decodeURIComponent(String(value || '')).replace(/\\/g, '/');
+      return decodeURIComponent(String(value || '')).trim();
     } catch (error) {
       return String(value || '');
     }
+  }
+
+  function buildNormalizedKey(value) {
+    return normalizePageName(value)
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+  }
+
+  function resolvePageCategory(currentPage) {
+    const pageKey = buildNormalizedKey(currentPage);
+    const categoryMap = {
+      sourcerizhtml: 'Plats de riz',
+      viennoiserieshtml: 'Viennoiseries',
+      rafraichissementhtml: 'Rafraîchissement',
+      thecafhtml: 'Café & Thé',
+      thecafehtml: 'Café & Thé',
+      menuhtml: 'ALL'
+    };
+
+    return categoryMap[pageKey] || null;
   }
 
   function renderPage() {
@@ -88,15 +110,7 @@
     if (!container) return;
 
     const currentPage = normalizePageName(window.location.pathname.split('/').pop() || 'index.html');
-    const categoryMap = {
-      'SourceRiz.html': 'Plats de riz',
-      'Viennoiseries.html': 'Viennoiseries',
-      'Rafraîchissement.html': 'Rafraîchissement',
-      'thécafé.html': 'Café & Thé',
-      'menu.html': 'ALL'
-    };
-
-    const pageCategory = categoryMap[currentPage] || null;
+    const pageCategory = resolvePageCategory(currentPage);
     const visibleItems = items.filter((item) => item && item.available !== false && (!pageCategory || pageCategory === 'ALL' || item.category === pageCategory));
 
     if (pageCategory && pageCategory !== 'ALL') {

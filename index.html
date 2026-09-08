@@ -820,6 +820,9 @@ hamburger.onclick = () => {
 
 const OWNER_PASSWORD = 'AnjouanOwner2026';
 const MENU_STORAGE_KEY = 'snake-saveur-menu-data-v2';
+const OWNER_SESSION_KEY = 'snake-saveur-owner-session-v1';
+const OWNER_HASH_KEY = 'snake-saveur-owner-hash-v1';
+const OWNER_SESSION_TTL = 1000 * 60 * 60 * 12;
 const DEFAULT_MENU_ITEMS = [
   { id: crypto.randomUUID ? crypto.randomUUID() : 'pilau-1', name: 'Pilau Royal', category: 'Plats de riz', price: 3000, available: true, image: 'WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.00_f93165aa.jpg' },
   { id: crypto.randomUUID ? crypto.randomUUID() : 'pain-1', name: 'Pain Chocolat', category: 'Viennoiseries', price: 1200, available: true, image: 'WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.00_e743aace.jpg' },
@@ -839,6 +842,52 @@ const ownerAddForm = document.getElementById('ownerAddForm');
 const ownerCategorySelect = document.getElementById('ownerItemCategory');
 
 const MENU_CATEGORY_OPTIONS = ['Plats de riz', 'Viennoiseries', 'Rafraîchissement', 'Café & Thé'];
+
+async function sha256Hex(value) {
+  const encoder = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(value));
+  return [...new Uint8Array(hashBuffer)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function ensureOwnerPasswordHash() {
+  const existingHash = localStorage.getItem(OWNER_HASH_KEY);
+  if (!existingHash) {
+    const hash = await sha256Hex(OWNER_PASSWORD);
+    localStorage.setItem(OWNER_HASH_KEY, hash);
+  }
+}
+
+function createOwnerSession() {
+  const token = [...crypto.getRandomValues(new Uint8Array(24))]
+    .map((value) => value.toString(16).padStart(2, '0'))
+    .join('');
+
+  localStorage.setItem(OWNER_SESSION_KEY, JSON.stringify({
+    token,
+    expiresAt: Date.now() + OWNER_SESSION_TTL
+  }));
+}
+
+function clearOwnerSession() {
+  localStorage.removeItem(OWNER_SESSION_KEY);
+}
+
+function isOwnerSessionValid() {
+  try {
+    const session = JSON.parse(localStorage.getItem(OWNER_SESSION_KEY) || 'null');
+    if (!session || !session.token || !session.expiresAt) return false;
+    return Date.now() < Number(session.expiresAt);
+  } catch (error) {
+    return false;
+  }
+}
+
+async function verifyOwnerPassword(password) {
+  await ensureOwnerPasswordHash();
+  const passwordHash = await sha256Hex(password);
+  const storedHash = localStorage.getItem(OWNER_HASH_KEY) || '';
+  return passwordHash === storedHash && password === OWNER_PASSWORD;
+}
 
 function syncCategoryOptions() {
   const existing = getMenuData().items.map((item) => item.category).filter(Boolean);
@@ -957,9 +1006,11 @@ function openOwnerModal() {
 }
 
 function closeOwnerModal() {
+  const passwordInput = document.getElementById('ownerPassword');
+  if (passwordInput) passwordInput.blur();
   ownerModal.classList.remove('show');
   ownerModal.setAttribute('aria-hidden', 'true');
-  document.getElementById('ownerPassword').value = '';
+  if (passwordInput) passwordInput.value = '';
 }
 
 function openOwnerPanel() {
@@ -971,24 +1022,39 @@ function closeOwnerPanel() {
   ownerPanel.classList.remove('show');
 }
 
+function restoreOwnerSession() {
+  if (isOwnerSessionValid()) {
+    openOwnerPanel();
+    return true;
+  }
+  closeOwnerPanel();
+  return false;
+}
+
 ownerAccessBtn.addEventListener('click', openOwnerModal);
 ownerCloseBtn.addEventListener('click', closeOwnerModal);
 closeOwnerPanelBtn.addEventListener('click', closeOwnerPanel);
-ownerLogoutBtn.addEventListener('click', closeOwnerPanel);
+ownerLogoutBtn.addEventListener('click', () => {
+  clearOwnerSession();
+  closeOwnerPanel();
+});
 
 ownerModal.addEventListener('click', (event) => {
   if (event.target === ownerModal) closeOwnerModal();
 });
 
-document.getElementById('ownerLoginForm').addEventListener('submit', (event) => {
+document.getElementById('ownerLoginForm').addEventListener('submit', async (event) => {
   event.preventDefault();
   const password = document.getElementById('ownerPassword').value.trim();
-  if (password === OWNER_PASSWORD) {
+
+  if (await verifyOwnerPassword(password)) {
+    createOwnerSession();
     closeOwnerModal();
     openOwnerPanel();
-  } else {
-    alert('Code d\'accès incorrect.');
+    return;
   }
+
+  alert('Code d\'accès incorrect.');
 });
 
 ownerAddForm.addEventListener('submit', async (event) => {
@@ -1105,6 +1171,7 @@ window.addEventListener('storage', (event) => {
   }
 });
 
+restoreOwnerSession();
 syncCategoryOptions();
 updateHomeCardsFromOwnerMenu();
 </script>
