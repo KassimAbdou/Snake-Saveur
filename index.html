@@ -332,6 +332,258 @@ nav a:hover::after{width:100%;}
   margin:10px 0;
 }
 
+/* ================= ACCES PROPRIO ================= */
+.owner-access-trigger{
+  position:fixed;
+  right:14px;
+  bottom:14px;
+  width:12px;
+  height:12px;
+  border:none;
+  border-radius:50%;
+  background:rgba(201,162,77,0.18);
+  border:1px solid rgba(201,162,77,0.4);
+  cursor:pointer;
+  box-shadow:0 0 0 3px rgba(15,61,46,0.2);
+  opacity:.18;
+  transition:all .25s ease;
+  z-index:90;
+}
+
+.owner-access-trigger:hover,
+.owner-access-trigger:focus-visible{
+  opacity:1;
+  transform:scale(1.2);
+  background:rgba(201,162,77,0.35);
+  outline:none;
+}
+
+.owner-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(8,38,30,.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:250;
+}
+
+.owner-modal.show{display:flex;}
+
+.owner-modal-card{
+  width:min(460px,100%);
+  background:#fffdf9;
+  border-radius:18px;
+  box-shadow:0 25px 50px rgba(0,0,0,.22);
+  overflow:hidden;
+  border:1px solid rgba(201,162,77,.28);
+}
+
+.owner-modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(135deg,#0f3d2e,#183f34);
+  color:white;
+  padding:16px 18px;
+}
+
+.owner-modal-header h3{
+  margin:0;
+  font-size:1rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.owner-close-btn{
+  background:none;
+  border:none;
+  color:white;
+  font-size:1.4rem;
+  cursor:pointer;
+  line-height:1;
+}
+
+.owner-form-wrap{
+  padding:22px 18px 18px;
+}
+
+.owner-form-wrap label{
+  display:block;
+  color:var(--vert);
+  font-size:.78rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  font-weight:600;
+}
+
+.owner-form-wrap input{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid rgba(15,61,46,.2);
+  border-radius:10px;
+  background:#fff;
+  color:#1c1c1c;
+  margin-bottom:16px;
+}
+
+.owner-form-wrap button,
+.owner-panel button{
+  width:100%;
+  background:linear-gradient(135deg,var(--or),#d7b35c);
+  color:var(--vert-profond);
+  border:none;
+  border-radius:10px;
+  padding:12px 18px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.owner-panel{
+  position:fixed;
+  inset:0 0 auto 0;
+  margin:80px auto 0;
+  max-width:920px;
+  background:rgba(255,253,249,.98);
+  border:1px solid rgba(201,162,77,.35);
+  border-radius:24px 24px 0 0;
+  box-shadow:0 -12px 34px rgba(0,0,0,.12);
+  max-height:72vh;
+  overflow:auto;
+  padding:20px 18px 18px;
+  display:none;
+  z-index:200;
+}
+
+.owner-panel.show{display:block;}
+
+.owner-panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(15,61,46,.12);
+}
+
+.owner-panel-header h2{
+  margin:0;
+  font-family:'Baskervville',serif;
+  color:var(--vert);
+  font-size:clamp(1.8rem,4vw,2.6rem);
+  font-weight:400;
+}
+
+.owner-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+.owner-card{
+  background:#fefaf2;
+  border:1px solid rgba(201,162,77,.25);
+  border-radius:14px;
+  padding:16px 14px;
+}
+
+.owner-card label{
+  display:block;
+  margin-bottom:8px;
+  color:var(--vert);
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+.owner-card input,
+.owner-card select{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid rgba(15,61,46,.18);
+  border-radius:8px;
+  background:white;
+  color:#111;
+  margin-bottom:10px;
+}
+
+.owner-card .inline-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:8px;
+}
+
+.owner-card .inline-row span{
+  color:#5d5d5d;
+  font-size:.8rem;
+}
+
+.owner-card .inline-row input[type="checkbox"]{
+  width:18px;
+  height:18px;
+  margin:0;
+}
+
+.owner-add-form{
+  background:#fffaf0;
+  border:1px solid rgba(201,162,77,.2);
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:18px;
+}
+
+.owner-input-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+
+.owner-checkbox-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:20px;
+}
+
+.owner-checkbox-wrap input[type="checkbox"]{
+  width:18px;
+  height:18px;
+}
+
+.owner-delete-btn{
+  background:#a63b2f;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  margin-top:12px;
+  cursor:pointer;
+  width:100%;
+}
+
+.owner-actions{
+  display:flex;
+  gap:12px;
+  margin-top:20px;
+}
+
+.owner-actions button{
+  flex:1;
+}
+
+.owner-actions .secondary,
+#ownerLogoutBtn{
+  background:transparent;
+  border:1px solid rgba(15,61,46,.2);
+  color:var(--vert);
+}
+
 /* ================= LOGOUT ================= */
 #logoutBtn{
   display:none;
@@ -497,6 +749,68 @@ footer{
 ©️ 2026 Snake Saveur — Les délices d'Anjouan à votre table.
 </footer>
 
+<button id="ownerAccessBtn" class="owner-access-trigger" type="button" aria-label="Accès réservé au propriétaire" title="Accès réservé"></button>
+
+<div id="ownerModal" class="owner-modal" aria-hidden="true">
+  <div class="owner-modal-card" role="dialog" aria-modal="true" aria-labelledby="ownerModalTitle">
+    <div class="owner-modal-header">
+      <h3 id="ownerModalTitle">Espace Pro</h3>
+      <button type="button" class="owner-close-btn" id="ownerCloseBtn" aria-label="Fermer">×</button>
+    </div>
+    <div class="owner-form-wrap">
+      <form id="ownerLoginForm">
+        <label for="ownerPassword">Code d'accès</label>
+        <input id="ownerPassword" type="password" placeholder="Entrez le code propriétaire" autocomplete="off">
+        <button type="submit">Accéder à la gestion</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<section id="ownerPanel" class="owner-panel" aria-live="polite">
+  <div class="owner-panel-header">
+    <h2>Gestion du restaurant</h2>
+    <button type="button" id="ownerLogoutBtn" class="secondary">Fermer</button>
+  </div>
+
+  <form id="ownerAddForm" class="owner-add-form">
+    <div class="owner-input-grid">
+      <div>
+        <label for="ownerItemName">Nom du plat</label>
+        <input id="ownerItemName" type="text" placeholder="Ex: Pilau Royal" required>
+      </div>
+      <div>
+        <label for="ownerItemCategory">Catégorie</label>
+        <select id="ownerItemCategory" required>
+          <option value="Plats de riz">Plats de riz</option>
+          <option value="Viennoiseries">Viennoiseries</option>
+          <option value="Rafraîchissement">Rafraîchissement</option>
+          <option value="Café & Thé">Café & Thé</option>
+        </select>
+      </div>
+      <div>
+        <label for="ownerItemPrice">Prix (fr)</label>
+        <input id="ownerItemPrice" type="number" min="0" step="50" value="500" required>
+      </div>
+      <div>
+        <label for="ownerItemImage">Image du plat</label>
+        <input id="ownerItemImage" type="file" accept="image/*">
+      </div>
+      <div class="owner-checkbox-wrap">
+        <label for="ownerItemAvailable">Disponible</label>
+        <input id="ownerItemAvailable" type="checkbox" checked>
+      </div>
+    </div>
+    <button type="submit">Ajouter le plat</button>
+  </form>
+
+  <div id="ownerMenuList" class="owner-list"></div>
+  <div class="owner-actions">
+    <button type="button" id="saveOwnerMenuBtn">Enregistrer les disponibilités</button>
+    <button type="button" id="closeOwnerPanelBtn" class="secondary">Fermer le tableau</button>
+  </div>
+</section>
+
 <script>
 const hamburger = document.getElementById('hamburger');
 
@@ -504,6 +818,295 @@ hamburger.onclick = () => {
   document.querySelector("nav").classList.toggle("open");
 };
 
+const OWNER_PASSWORD = 'AnjouanOwner2026';
+const MENU_STORAGE_KEY = 'snake-saveur-menu-data-v2';
+const DEFAULT_MENU_ITEMS = [
+  { id: crypto.randomUUID ? crypto.randomUUID() : 'pilau-1', name: 'Pilau Royal', category: 'Plats de riz', price: 3000, available: true, image: 'WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.00_f93165aa.jpg' },
+  { id: crypto.randomUUID ? crypto.randomUUID() : 'pain-1', name: 'Pain Chocolat', category: 'Viennoiseries', price: 1200, available: true, image: 'WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.00_e743aace.jpg' },
+  { id: crypto.randomUUID ? crypto.randomUUID() : 'boisson-1', name: 'Les boissons', category: 'Rafraîchissement', price: 500, available: true, image: 'WhatsApp%20Image%202025-10-23%20%C3%A0%2001.31.27_18f6a335.jpg' },
+  { id: crypto.randomUUID ? crypto.randomUUID() : 'cafe-1', name: 'Thé & Café', category: 'Café & Thé', price: 500, available: true, image: 'cozy-cafe-with-steaming-cups-coffee_1022456-159128.avif' }
+];
+
+const ownerModal = document.getElementById('ownerModal');
+const ownerPanel = document.getElementById('ownerPanel');
+const ownerAccessBtn = document.getElementById('ownerAccessBtn');
+const ownerCloseBtn = document.getElementById('ownerCloseBtn');
+const ownerLogoutBtn = document.getElementById('ownerLogoutBtn');
+const closeOwnerPanelBtn = document.getElementById('closeOwnerPanelBtn');
+const ownerMenuList = document.getElementById('ownerMenuList');
+const saveOwnerMenuBtn = document.getElementById('saveOwnerMenuBtn');
+const ownerAddForm = document.getElementById('ownerAddForm');
+const ownerCategorySelect = document.getElementById('ownerItemCategory');
+
+const MENU_CATEGORY_OPTIONS = ['Plats de riz', 'Viennoiseries', 'Rafraîchissement', 'Café & Thé'];
+
+function syncCategoryOptions() {
+  const existing = getMenuData().items.map((item) => item.category).filter(Boolean);
+  const merged = [...new Set([...MENU_CATEGORY_OPTIONS, ...existing])];
+  const currentValue = ownerCategorySelect.value || merged[0];
+
+  ownerCategorySelect.innerHTML = merged.map((category) => `
+    <option value="${category}">${category}</option>
+  `).join('');
+
+  if (merged.includes(currentValue)) {
+    ownerCategorySelect.value = currentValue;
+  } else {
+    ownerCategorySelect.value = merged[0];
+  }
+}
+
+function normalizeMenuItems(items) {
+  if (!Array.isArray(items) || items.length === 0) return DEFAULT_MENU_ITEMS;
+  return items.map((item) => ({
+    id: item.id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random())),
+    name: item.name || 'Nouveau plat',
+    category: item.category || 'Autres',
+    price: Number(item.price) || 0,
+    available: item.available !== false,
+    image: item.image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80'
+  }));
+}
+
+function getMenuData() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(MENU_STORAGE_KEY) || 'null');
+    return { items: normalizeMenuItems(saved && Array.isArray(saved) ? saved : DEFAULT_MENU_ITEMS) };
+  } catch (error) {
+    return { items: DEFAULT_MENU_ITEMS };
+  }
+}
+
+function saveMenuData(data) {
+  localStorage.setItem(MENU_STORAGE_KEY, JSON.stringify(data.items));
+  window.dispatchEvent(new CustomEvent('snakeSaveurMenuUpdated'));
+}
+
+function readImageFile(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) { resolve(''); return; }
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(new Error('Erreur lors du chargement de l\'image.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function updateHomeCardsFromOwnerMenu() {
+  const { items } = getMenuData();
+  const cards = document.querySelectorAll('.card');
+  const cardMap = {
+    'Pilau Royal': cards[0],
+    'Pain Chocolat': cards[1],
+    'Les boissons': cards[2],
+    'Thé & Café': cards[3]
+  };
+
+  items.forEach((item) => {
+    const card = cardMap[item.name];
+    if (!card) return;
+
+    const img = card.querySelector('img');
+    const note = card.querySelector('.card-note');
+    if (img && item.image) img.src = item.image;
+
+    const anchor = card.querySelector('a');
+    if (anchor) {
+      anchor.style.pointerEvents = item.available ? 'auto' : 'none';
+      anchor.style.opacity = item.available ? '1' : '0.55';
+    }
+
+    if (note) {
+      note.textContent = `${item.category} • ${item.available ? 'Disponible maintenant' : 'Indisponible'}`;
+    }
+
+    card.style.opacity = item.available ? '1' : '0.72';
+  });
+}
+
+function renderOwnerMenu() {
+  const { items } = getMenuData();
+  ownerMenuList.innerHTML = items.map((item) => `
+    <div class="owner-card" data-id="${item.id}">
+      <label>Nom du plat</label>
+      <input type="text" value="${item.name}" data-id="${item.id}" data-field="name">
+
+      <label>Catégorie</label>
+      <input type="text" value="${item.category}" data-id="${item.id}" data-field="category">
+
+      <label>Prix (fr)</label>
+      <input type="number" min="0" step="50" value="${item.price}" data-id="${item.id}" data-field="price">
+
+      <label>Image</label>
+      <input type="file" accept="image/*" data-id="${item.id}" data-field="image-file">
+
+      <div class="inline-row">
+        <span>Disponible</span>
+        <input type="checkbox" data-id="${item.id}" data-field="available" ${item.available ? 'checked' : ''}>
+      </div>
+
+      <button type="button" class="owner-delete-btn" data-delete-id="${item.id}">Supprimer</button>
+    </div>
+  `).join('');
+}
+
+function openOwnerModal() {
+  ownerModal.classList.add('show');
+  ownerModal.setAttribute('aria-hidden', 'false');
+  setTimeout(() => document.getElementById('ownerPassword').focus(), 80);
+}
+
+function closeOwnerModal() {
+  ownerModal.classList.remove('show');
+  ownerModal.setAttribute('aria-hidden', 'true');
+  document.getElementById('ownerPassword').value = '';
+}
+
+function openOwnerPanel() {
+  renderOwnerMenu();
+  ownerPanel.classList.add('show');
+}
+
+function closeOwnerPanel() {
+  ownerPanel.classList.remove('show');
+}
+
+ownerAccessBtn.addEventListener('click', openOwnerModal);
+ownerCloseBtn.addEventListener('click', closeOwnerModal);
+closeOwnerPanelBtn.addEventListener('click', closeOwnerPanel);
+ownerLogoutBtn.addEventListener('click', closeOwnerPanel);
+
+ownerModal.addEventListener('click', (event) => {
+  if (event.target === ownerModal) closeOwnerModal();
+});
+
+document.getElementById('ownerLoginForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const password = document.getElementById('ownerPassword').value.trim();
+  if (password === OWNER_PASSWORD) {
+    closeOwnerModal();
+    openOwnerPanel();
+  } else {
+    alert('Code d\'accès incorrect.');
+  }
+});
+
+ownerAddForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const name = document.getElementById('ownerItemName').value.trim();
+  const category = document.getElementById('ownerItemCategory').value.trim();
+  const price = Number(document.getElementById('ownerItemPrice').value || 0);
+  const available = document.getElementById('ownerItemAvailable').checked;
+  const file = document.getElementById('ownerItemImage').files[0];
+
+  if (!name || !category) {
+    alert('Le nom et la catégorie du plat sont obligatoires.');
+    return;
+  }
+
+  const image = file ? await readImageFile(file) : 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80';
+  const data = getMenuData();
+  data.items.push({
+    id: crypto.randomUUID ? crypto.randomUUID() : `item-${Date.now()}`,
+    name,
+    category,
+    price,
+    available,
+    image
+  });
+
+  saveMenuData(data);
+  syncCategoryOptions();
+  renderOwnerMenu();
+  updateHomeCardsFromOwnerMenu();
+  ownerAddForm.reset();
+  document.getElementById('ownerItemPrice').value = '500';
+  document.getElementById('ownerItemAvailable').checked = true;
+  ownerCategorySelect.value = category;
+  alert('Le plat a bien été ajouté.');
+});
+
+ownerMenuList.addEventListener('input', (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  const id = target.dataset.id;
+  const field = target.dataset.field;
+  if (!id || !field) return;
+
+  const data = getMenuData();
+  const item = data.items.find((entry) => entry.id === id);
+  if (!item) return;
+
+  if (field === 'name') item.name = target.value || 'Nouveau plat';
+  if (field === 'category') item.category = target.value || 'Autres';
+  if (field === 'price') item.price = Number(target.value) || 0;
+  if (field === 'available') item.available = target.checked;
+
+  saveMenuData(data);
+  updateHomeCardsFromOwnerMenu();
+});
+
+ownerMenuList.addEventListener('change', async (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+
+  const id = target.dataset.id;
+  const field = target.dataset.field;
+  if (!id || !field) return;
+
+  if (field === 'available') {
+    const data = getMenuData();
+    const item = data.items.find((entry) => entry.id === id);
+    if (!item) return;
+    item.available = target.checked;
+    saveMenuData(data);
+    updateHomeCardsFromOwnerMenu();
+  }
+
+  if (field === 'image-file') {
+    const file = target.files[0];
+    if (!file) return;
+    const image = await readImageFile(file);
+    const data = getMenuData();
+    const item = data.items.find((entry) => entry.id === id);
+    if (!item) return;
+    item.image = image;
+    saveMenuData(data);
+    updateHomeCardsFromOwnerMenu();
+  }
+});
+
+ownerMenuList.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-delete-id]');
+  if (!button) return;
+  const id = button.dataset.deleteId;
+  const data = getMenuData();
+  data.items = data.items.filter((item) => item.id !== id);
+  saveMenuData(data);
+  renderOwnerMenu();
+  updateHomeCardsFromOwnerMenu();
+});
+
+saveOwnerMenuBtn.addEventListener('click', () => {
+  const data = getMenuData();
+  saveMenuData(data);
+  alert('Les disponibilités ont bien été enregistrées.');
+});
+
+window.addEventListener('snakeSaveurMenuUpdated', () => {
+  syncCategoryOptions();
+  updateHomeCardsFromOwnerMenu();
+});
+
+window.addEventListener('storage', (event) => {
+  if (event.key === MENU_STORAGE_KEY) {
+    syncCategoryOptions();
+    updateHomeCardsFromOwnerMenu();
+  }
+});
+
+syncCategoryOptions();
+updateHomeCardsFromOwnerMenu();
 </script>
 
 </body>
