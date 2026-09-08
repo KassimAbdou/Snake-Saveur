@@ -7,6 +7,7 @@
     <link rel="icon" href="favicon-chef.svg">
     <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='darkgreen'/><g transform='translate(6,6) scale(0.875)'><path d='M24 2C18 2 14 6 12 10c-6 2-8 8-6 14 2 6 8 10 18 10s16-4 18-10c2-6 0-12-6-14-2-4-6-8-12-8z' fill='white'/><path d='M10 30c0 6 10 12 14 12s14-6 14-12v-2H10v2z' fill='gold'/></g></svg>">
   <title>Viennoiseries</title>
+  <link rel="stylesheet" href="pages.css">
 
   <style>
     :root{
@@ -23,7 +24,7 @@
       font-family:'Poppins',sans-serif;
       background:
         linear-gradient(180deg, rgba(14,165,164,.35), rgba(245,158,11,.15)),
-        url('background-anjouan.jpg');
+        url('WhatsApp Image 2025-10-23 à 01.11.00_e743aace.jpg');
       background-size:cover;
       background-attachment:fixed;
       margin:0;
@@ -316,6 +317,12 @@ nav a:hover::after{width:100%;}
       });
       updateTotal();
     }
+  </script>
+
+  <script>
+    document.getElementById('hamburger').onclick = () => {
+      document.querySelector('nav').classList.toggle('open');
+    };
   </script>
 
 </body>

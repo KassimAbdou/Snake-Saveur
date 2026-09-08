@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saveur Anjouannaise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon-chef.svg">
@@ -14,8 +17,11 @@
 <style>
 :root{
   --or:#c9a24d;
+  --or-clair:#e8c879;
   --vert:#0f3d2e;
+  --vert-profond:#08261e;
   --sable:#f8f5f0;
+  --sable-fonce:#eee5d8;
   --noir:#0b0b0b;
 }
 
@@ -23,7 +29,7 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+  font-family:'Prompt',sans-serif;
 }
 
 body{
@@ -32,28 +38,38 @@ body{
   overflow-x:hidden;
 }
 
+html{scroll-behavior:smooth;}
+
 /* ================= HEADER ================= */
 header{
   position:fixed;
   top:0;
   left:0;
   width:100%;
-  padding:14px clamp(16px,4vw,80px);
+  min-height:72px;
+  padding:16px clamp(18px,5vw,80px);
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:rgba(15,61,46,0.8);
+  background:rgba(8,38,30,0.9);
   backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(232,200,121,.2);
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
   z-index:100;
 }
 
 header h1{
   color:var(--or);
-  font-size:clamp(1.2em,4vw,1.6em);
-  letter-spacing:2px;
+  margin:0;
+  flex:0 0 auto;
+  font-family:'Baskervville',serif;
+  font-size:clamp(1.35em,4vw,1.8em);
+  letter-spacing:1px;
 }
 
 nav{
+  max-height:none;
+  overflow:visible;
   transition:max-height .35s ease;
 }
 
@@ -64,9 +80,13 @@ nav ul{
 }
 
 nav a{
+  display:inline-block;
+  white-space:nowrap;
   text-decoration:none;
   color:white;
   font-weight:500;
+  font-size:.9rem;
+  letter-spacing:.04em;
   position:relative;
 }
 
@@ -86,6 +106,10 @@ nav a:hover::after{width:100%;}
 /* ================= HAMBURGER ================= */
 .hamburger{
   display:none;
+  flex:0 0 auto;
+  padding:7px 10px;
+  border:1px solid rgba(232,200,121,.35);
+  border-radius:4px;
   font-size:2em;
   color:white;
   cursor:pointer;
@@ -96,58 +120,105 @@ nav a:hover::after{width:100%;}
   min-height:100vh;
   display:flex;
   align-items:center;
-  padding:0 clamp(18px,5vw,80px);
+  position:relative;
+  padding:120px clamp(18px,8vw,120px) 80px;
   background:
-    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    linear-gradient(90deg,rgba(4,22,17,.86) 0%,rgba(4,22,17,.48) 55%,rgba(4,22,17,.2) 100%),
     url("WhatsApp Image 2025-11-10 à 12.31.19_093b2449.jpg") center/cover;
 }
 
 .hero-text{
-  max-width:520px;
+  max-width:650px;
   color:white;
+  animation:hero-rise .8s ease both;
+}
+
+.hero-text::before{
+  content:'Cuisine comorienne • Île d’Anjouan';
+  display:block;
+  margin-bottom:18px;
+  color:var(--or-clair);
+  font-size:.75rem;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
 }
 
 .hero-text h2{
-  font-size:clamp(2em,6vw,3.8em);
+  max-width:620px;
+  font-family:'Baskervville',serif;
+  font-size:clamp(2.7rem,7vw,5.8rem);
   line-height:1.1;
-  margin-bottom:20px;
+  margin-bottom:22px;
+  font-weight:400;
 }
 
 .hero-text p{
-  font-size:clamp(.95em,3vw,1.15em);
-  margin-bottom:35px;
+  max-width:500px;
+  font-size:clamp(1rem,2vw,1.2rem);
+  line-height:1.75;
+  margin-bottom:32px;
+  color:rgba(255,255,255,.86);
 }
 
-    .hero-btn{
-  padding:12px 36px;
+.hero-btn{
+  padding:13px 25px;
   background:var(--or);
   border:none;
-  border-radius:30px;
+  border-radius:4px;
   font-weight:600;
   cursor:pointer;
+  color:var(--vert-profond);
+  transition:transform .3s,background .3s,box-shadow .3s;
+}
+
+.hero-btn:hover{
+  background:var(--or-clair);
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
 
 /* ================= SECTION ================= */
 .section{
-  padding:clamp(60px,9vw,90px) clamp(18px,5vw,80px);
+  padding:clamp(70px,9vw,115px) clamp(18px,5vw,80px);
   text-align:center;
+  background:var(--sable);
+}
+
+.section::before{
+  content:'SAVEURS & TRANSMISSION';
+  display:block;
+  margin-bottom:15px;
+  color:#9e7b31;
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.2em;
 }
 
 .section h2{
-  font-size:clamp(1.8em,5vw,2.6em);
+  font-family:'Baskervville',serif;
+  font-size:clamp(2rem,5vw,3.2rem);
   color:var(--vert);
-  margin-bottom:20px;
+  margin-bottom:18px;
+  font-weight:400;
 }
 .section p{
   max-width:680px;
   margin:auto;
   font-size:1.05em;
+  line-height:1.8;
   color:#555;
+}
+
+.section > h2:nth-of-type(2){
+  margin-top:70px;
+  font-size:clamp(1.5rem,4vw,2.25rem);
 }
 
 /* ================= CARDS ================= */
 .cards{
-  margin-top:50px;
+  max-width:1180px;
+  margin:45px auto 0;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:30px;
@@ -155,28 +226,46 @@ nav a:hover::after{width:100%;}
 
 .card{
   background:white;
-  border-radius:20px;
+  border-radius:4px;
   overflow:hidden;
-  box-shadow:0 15px 35px rgba(0,0,0,.15);
-  transition:.35s;
+  box-shadow:0 12px 28px rgba(29,43,35,.09);
+  transition:transform .35s,box-shadow .35s;
+  text-align:left;
 }
 
-.card:hover{transform:translateY(-10px);}
+.card:hover{transform:translateY(-8px);box-shadow:0 20px 35px rgba(29,43,35,.16);}
 
 .card img{
   width:100%;
-  height:200px;
+  height:220px;
   object-fit:cover;
+  display:block;
+  transition:transform .5s;
 }
 
+.card:hover img{transform:scale(1.04);}
+
 .card h3{
-  margin:16px;
+  margin:20px 20px 8px;
+  font-family:'Baskervville',serif;
+  font-size:1.45rem;
   color:var(--vert);
 }
 
 .card p{
-  margin:0 16px 26px;
+  margin:0 20px 24px;
   color:#666;
+  line-height:1.6;
+}
+
+.card-note{
+  display:block;
+  margin:0 20px 24px;
+  color:#9e7b31;
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  line-height:1.45;
 }
 
 .client-qty{
@@ -260,24 +349,36 @@ nav a:hover::after{width:100%;}
 
 /* ================= FOOTER ================= */
 footer{
-  background:var(--noir);
+  background:var(--vert-profond);
   color:#bbb;
   text-align:center;
-  padding:26px;
+  padding:30px 18px;
+  font-size:.9rem;
+  letter-spacing:.03em;
+}
+
+@keyframes hero-rise{
+  from{opacity:0;transform:translateY(22px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
 /* ================= MOBILE OPTIMISATION ================= */
 @media(max-width:768px){
 
-  .hamburger{display:block;}
+  .hamburger{display:block !important;}
+
+  header{flex-wrap:wrap;gap:0;}
+
+  header h1{font-size:1.45em;}
 
   nav{
+    width:100%;
     max-height:0;
     overflow:hidden;
     width:100%;
   }
 
-  nav.open{max-height:320px;}
+  nav.open{max-height:none !important;height:auto !important;overflow:visible !important;}
 
   nav ul{
     flex-direction:column;
@@ -291,11 +392,18 @@ footer{
     min-height:85vh;
     padding-top:90px;
     text-align:center;
+    background-position:62% center;
   }
+
+  .hero-text h2{font-size:clamp(2.5rem,12vw,4rem);}
+  .hero-text p{margin-left:auto;margin-right:auto;}
+  .hero-text::before{font-size:.65rem;}
+  .hero-text a{display:block;}
+  .hero-btn{width:min(100%,280px);}
 
   /* GRILLES MOBILE (clé du rendu propre) */
   .cards{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr;
     gap:18px;
   }
 
@@ -312,7 +420,7 @@ footer{
 @media(max-width:480px){
   .cards,
   .liste-plats{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
   }
 
   .hero-text h2{font-size:1.9em;}
@@ -361,33 +469,26 @@ footer{
     <div class="card">
       <a href="SourceRiz.html"><img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.00_f93165aa.jpg" alt="Pilau"></a>
       <h3>Pilau Royal</h3>
-      <p>Riz parfumé aux épices d’Anjouan.
-        <br>
-        <h3> Cette partie est pour les plats de riz</h3>
-      </p>
+      <p>Riz parfumé aux épices d’Anjouan.</p>
+      <span class="card-note">Cette partie est pour les plats de riz</span>
     </div>
     <div class="card">
       <a href="Viennoiseries.html"><img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.11.00_e743aace.jpg" alt="Pain Chocolat"></a>
       <h3>Pain Chocolat</h3>
-      <p>Un délicieux pain au chocolat fait maison, croustillant à l'extérieur et fondant à l'intérieur.
-        <br>
-      <h3>Cette partie est pour les viennoiseries</h3> </p>
+      <p>Un délicieux pain au chocolat fait maison, croustillant à l'extérieur et fondant à l'intérieur.</p>
+      <span class="card-note">Cette partie est pour les viennoiseries</span>
     </div>
     <div class="card">
       <a href="Rafraîchissement.html"><img src="WhatsApp%20Image%202025-10-23%20%C3%A0%2001.31.27_18f6a335.jpg" alt="Les Boissons"></a>
       <h3>Les boissons</h3>
-      <p>Une sélection de boissons rafraîchissantes pour accompagner vos repas.
-        <br>
-        <h3>Cette partie est pour le rafraîchissement</h3>
-      </p>
+      <p>Une sélection de boissons rafraîchissantes pour accompagner vos repas.</p>
+      <span class="card-note">Cette partie est pour le rafraîchissement</span>
     </div>
     <div class="card">
       <a href="thécafé.html"><img src="cozy-cafe-with-steaming-cups-coffee_1022456-159128.avif" alt="Les Boissons"></a>
       <h3>Thé & Café</h3>
-      <p>Une sélection de boissons chaudes pour accompagner vos repas.
-        <br>
-        <h3>Cette partie est pour le thé et café</h3>
-      </p>
+      <p>Une sélection de boissons chaudes pour accompagner vos repas.</p>
+      <span class="card-note">Cette partie est pour le thé et café</span>
     </div>
   </div>
 </section>
